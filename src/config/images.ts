@@ -25,9 +25,9 @@ export function extractFileIdFromUrl(shareUrl: string): string | null {
 export const imageUrls = {
   // ヒーローセクション
   hero: {
-    main: "https://images.unsplash.com/photo-1543965170-e3d16958f280?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYWlyJTIwc2Fsb24lMjBuYXR1cmFsJTIwbGlnaHR8ZW58MXx8fHwxNzYyMTYxNjYwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    //main: "https://images.unsplash.com/photo-1543965170-e3d16958f280?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYWlyJTIwc2Fsb24lMjBuYXR1cmFsJTIwbGlnaHR8ZW58MXx8fHwxNzYyMTYxNjYwfDA&ixlib=rb-4.1.0&q=80&w=1080",
     // Googleドライブを使用する場合は、以下のようにファイルIDを指定
-    // main: convertGoogleDriveUrl("YOUR_FILE_ID_HERE"),
+    main: convertGoogleDriveUrl("1qmrnPNK0cWKYC9WmKS3_d7liU7RRPbdU"),
   },
 
   // ブランドセクション
