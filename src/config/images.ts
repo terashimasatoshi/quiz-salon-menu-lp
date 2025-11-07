@@ -35,7 +35,7 @@ export function buildDriveImageUrl(fileIdOrUrl: string, width = DRIVE_DEFAULT_WI
  */
 export const imageUrls = {
   hero: {
-    main: buildDriveImageUrl("https://drive.google.com/file/d/1dO-xtNQ2Ypt18i9K7vzG1ebvP90mNMPF/view?usp=sharing"),
+    main: buildDriveImageUrl("https://drive.google.com/file/d/1HQJQKeISNQJrRFcuKoXahc8FMbtuFPBu/view?usp=sharing"),
   },
   brand: {
     treatment: buildDriveImageUrl("https://drive.google.com/file/d/1AGnqpsp5KPsvyq-OhphgOPGh2jF_SI4I/view?usp=sharing"),
