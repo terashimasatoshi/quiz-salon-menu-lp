@@ -12,8 +12,7 @@
 
 // GoogleドライブのファイルIDを埋め込み用URLに変換
 export function convertGoogleDriveUrl(fileId: string): string {
-  return `https://drive.google.com/uc?export=view&id=${fileId}`;
-}
+  return `https://drive.google.com/uc?export=download&id=${fileId}`;
 
 // 共有リンクからファイルIDを抽出
 export function extractFileIdFromUrl(shareUrl: string): string | null {
