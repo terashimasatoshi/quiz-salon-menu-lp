@@ -1,51 +1,70 @@
 /**
- * 画像設定ファイル
- * 
- * Googleドライブの画像を使用する場合：
- * 1. Googleドライブで画像を右クリック → 「共有」→「リンクを知っている全員」に変更
- * 2. 共有リンクをコピー（例：https://drive.google.com/file/d/FILE_ID/view?usp=sharing）
- * 3. FILE_ID部分を抽出して、convertGoogleDriveUrl関数に渡す
- * 
- * または、直接ダイレクトリンクを使用：
- * https://drive.google.com/uc?export=view&id=FILE_ID
+ * 画像設定（Google Drive対応・完全版）
+ * - 共有URLでもファイルIDでもOK
+ * - <img> / next/image どちらでも使える安定形式（thumbnail）を使用
+ * - 画像サイズは sz=wXXXX で調整（実表示幅＋少し余裕が目安）
  */
 
-// GoogleドライブのファイルIDを埋め込み用URLに変換
-export function convertGoogleDriveUrl(fileId: string): string {
-  return `https://drive.google.com/uc?export=download&id=${fileId}`;
+// ====== 設定値（必要に応じて調整）======
+const DRIVE_DEFAULT_WIDTH = 2000; // デスクトップ想定
+const DRIVE_MOBILE_WIDTH = 1080;  // モバイル想定（必要なら使い分け可）
+
+// ====== ユーティリティ ======
+/** 共有URLや埋め込みURLから Drive の fileId を抽出 */
+export function extractFileId(input: string): string | null {
+  if (!input) return null;
+
+  // もし既に fileId (英数・_・- で長め) が渡ってきた場合はそのまま返す
+  if (/^[a-zA-Z0-9_-]{10,}$/.test(input)) return input;
+
+  // /d/<id>/ パターン（例: https://drive.google.com/file/d/<id>/view）
+  const m1 = input.match(/\/d\/([a-zA-Z0-9_-]{10,})/);
+  if (m1?.[1]) return m1[1];
+
+  // id= パラメータ系（念のため）
+  const m2 = input.match(/[?&]id=([a-zA-Z0-9_-]{10,})/);
+  if (m2?.[1]) return m2[1];
+
+  return null;
 }
 
-// 共有リンクからファイルIDを抽出
-export function extractFileIdFromUrl(shareUrl: string): string | null {
-  const match = shareUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  return match ? match[1] : null;
+/** Driveの安定表示URL（thumbnail API）を生成 */
+export function buildDriveImageUrl(fileIdOrUrl: string, width = DRIVE_DEFAULT_WIDTH): string {
+  const id = extractFileId(fileIdOrUrl);
+  if (!id) return ""; // 不正URL対策（空文字を返す）
+  // thumbnail は画像として直接返ってくるため <img> / next/image で安定
+  return `https://drive.google.com/thumbnail?id=${id}&sz=w${width}`;
 }
 
-// 画像URL設定
+/** （必要なら）直接表示用：uc?export=view 版 */
+export function buildDriveViewUrl(fileIdOrUrl: string): string {
+  const id = extractFileId(fileIdOrUrl);
+  if (!id) return "";
+  return `https://drive.google.com/uc?export=view&id=${id}`;
+}
+
+// ====== 画像URL定義 ======
+// あなたの共有リンク：
+// ヒーロー: https://drive.google.com/file/d/1qmrnPNK0cWKYC9WmKS3_d7liU7RRPbdU/view?usp=sharing
+// ブランド(treatment): https://drive.google.com/file/d/1AGnqpsp5KPsvyq-OhphgOPGh2jF_SI4I/view?usp=sharing
+
 export const imageUrls = {
-  // ヒーローセクション
   hero: {
-    //main: "https://images.unsplash.com/photo-1543965170-e3d16958f280?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYWlyJTIwc2Fsb24lMjBuYXR1cmFsJTIwbGlnaHR8ZW58MXx8fHwxNzYyMTYxNjYwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-    // Googleドライブを使用する場合は、以下のようにファイルIDを指定
-    main: convertGoogleDriveUrl("1qmrnPNK0cWKYC9WmKS3_d7liU7RRPbdU"),
+    // デスクトップ想定で少し大きめ（w=2000）
+    main: buildDriveImageUrl("https://drive.google.com/file/d/1qmrnPNK0cWKYC9WmKS3_d7liU7RRPbdU/view?usp=sharing", DRIVE_DEFAULT_WIDTH),
+    // 例：モバイル向けが必要なら ↓ を使い分け（コンポーネント側で分岐）
+    // mainMobile: buildDriveImageUrl("1qmrnPNK0cWKYC9WmKS3_d7liU7RRPbdU", DRIVE_MOBILE_WIDTH),
   },
-
-  // ブランドセクション
   brand: {
-    treatment: "https://images.unsplash.com/photo-1761864293811-d6e937225df4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcmdhbmljJTIwYmVhdXR5JTIwdHJlYXRtZW50fGVufDF8fHx8MTc2MjE2MTY2MHww&ixlib=rb-4.1.0&q=80&w=1080",
-    // Googleドライブの例：
-    // treatment: convertGoogleDriveUrl("YOUR_FILE_ID_HERE"),
+    treatment: buildDriveImageUrl("https://drive.google.com/file/d/1AGnqpsp5KPsvyq-OhphgOPGh2jF_SI4I/view?usp=sharing", DRIVE_DEFAULT_WIDTH),
   },
-
-  // オプション：追加の画像
   additional: {
-    salon1: "https://images.unsplash.com/photo-1760038548850-bfc356d88b12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxoYWlyJTIwY2FyZSUyMHByb2Zlc3Npb25hbHxlbnwxfHx8fDE3NjIxNjE2NjF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-    salon2: "https://images.unsplash.com/photo-1611920629515-3f76f8c36b37?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGElMjByZWxheGF0aW9ufGVufDF8fHx8MTc2MjE2MDA1MXww&ixlib=rb-4.1.0&q=80&w=1080",
-  }
+    // サンプル（外部CDNのままでもOK）
+    salon1: "https://images.unsplash.com/photo-1760038548850-bfc356d88b12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+    salon2: "https://images.unsplash.com/photo-1611920629515-3f76f8c36b37?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+  },
 };
 
-// 使用例：
-// Googleドライブの共有リンクから画像URLを取得
-// const shareUrl = "https://drive.google.com/file/d/1a2b3c4d5e6f7g8h9i0j/view?usp=sharing";
-// const fileId = extractFileIdFromUrl(shareUrl);
-// const imageUrl = fileId ? convertGoogleDriveUrl(fileId) : "";
+// ====== 使用例 ======
+// <img src={imageUrls.hero.main} alt="Hero" />
+// <Image src={imageUrls.hero.main} alt="Hero" fill priority sizes="100vw" />
