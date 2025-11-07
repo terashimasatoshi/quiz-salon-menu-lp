@@ -9,6 +9,8 @@ export interface Menu {
   duration_max_est: number;
   tags: string[];
   hotpepper_url: string;
+  hotpepper_url_takayanagi?: string;
+  hotpepper_url_hanado?: string;
 }
 
 export interface QuizAnswer {
