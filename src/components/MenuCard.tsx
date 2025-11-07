@@ -25,10 +25,20 @@ interface MenuCardProps {
 
 export function MenuCard({ menu, onAddToCompare, isInComparison }: MenuCardProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showStoreSelect, setShowStoreSelect] = useState(false);
 
   const handleBooking = () => {
-    const url = `${menu.hotpepper_url}?utm_source=lp&utm_medium=quiz&utm_campaign=peace`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    // 両店舗のURLがある場合は選択ダイアログを表示
+    if (menu.hotpepper_url_takayanagi && menu.hotpepper_url_hanado) {
+      setShowStoreSelect(true);
+    } else {
+      openBookingUrl(menu.hotpepper_url);
+    }
+  };
+
+  const openBookingUrl = (url: string) => {
+    const fullUrl = `${url}?utm_source=lp&utm_medium=quiz&utm_campaign=peace`;
+    window.open(fullUrl, "_blank", "noopener,noreferrer");
     
     if (typeof window !== "undefined") {
       window.dispatchEvent(
@@ -37,6 +47,7 @@ export function MenuCard({ menu, onAddToCompare, isInComparison }: MenuCardProps
         })
       );
     }
+    setShowStoreSelect(false);
   };
 
   const getTagColor = (tag: string) => {
@@ -49,122 +60,166 @@ export function MenuCard({ menu, onAddToCompare, isInComparison }: MenuCardProps
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <Card className="overflow-hidden border-2 border-stone-200 hover:border-olive-300 transition-all hover:shadow-xl">
-        <CardHeader className="bg-gradient-to-br from-stone-50 to-white pb-4">
-          <div className="flex flex-wrap gap-2 mb-3">
-            {menu.tags.map((tag) => (
-              <Badge
-                key={tag}
-                variant="outline"
-                className={getTagColor(tag)}
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
-          
-          <h3 className="text-stone-900">{menu.title}</h3>
-        </CardHeader>
-
-        <CardContent className="pt-6 space-y-4">
-          {/* Pricing & Time */}
-          <div className="grid sm:grid-cols-2 gap-4 p-4 bg-stone-50 rounded-xl">
-            <div>
-              <p className="text-xs text-stone-500 mb-1">予算の目安</p>
-              <p className="text-olive-700">{menu.price_display}</p>
-            </div>
-            <div>
-              <div className="flex items-center gap-1 mb-1">
-                <p className="text-xs text-stone-500">所要時間（目安）</p>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Info className="w-3 h-3 text-stone-400" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>目安時間。髪の状態で前後します</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-              <div className="flex items-center gap-1 text-stone-700">
-                <Clock className="w-4 h-4" />
-                <span>{menu.duration_min_est}〜{menu.duration_max_est}分</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Recommendation reason */}
-          <div className="p-4 bg-olive-50 rounded-xl border border-olive-100">
-            <p className="text-xs text-olive-600 mb-1">あなたへのおすすめ理由</p>
-            <p className="text-sm text-olive-900">{menu.reason}</p>
-          </div>
-
-          {/* Effects */}
-          <div>
-            <p className="text-xs text-stone-500 mb-2">主な効果</p>
-            <div className="flex flex-wrap gap-2">
-              {menu.effects.map((effect) => (
-                <span
-                  key={effect}
-                  className="text-xs px-3 py-1 bg-white border border-stone-200 rounded-full text-stone-700"
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <Card className="overflow-hidden border-2 border-stone-200 hover:border-olive-300 transition-all hover:shadow-xl">
+          <CardHeader className="bg-gradient-to-br from-stone-50 to-white pb-4">
+            <div className="flex flex-wrap gap-2 mb-3">
+              {menu.tags.map((tag) => (
+                <Badge
+                  key={tag}
+                  variant="outline"
+                  className={getTagColor(tag)}
                 >
-                  {effect}
-                </span>
+                  {tag}
+                </Badge>
               ))}
             </div>
-          </div>
+            
+            <h3 className="text-stone-900">{menu.title}</h3>
+          </CardHeader>
 
-          {/* Collapsible details */}
-          <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" className="w-full text-stone-600 hover:text-stone-900">
-                {isOpen ? "詳細を閉じる" : "詳細を見る"}
-              </Button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="mt-4 space-y-3">
+          <CardContent className="pt-6 space-y-4">
+            {/* Pricing & Time */}
+            <div className="grid sm:grid-cols-2 gap-4 p-4 bg-stone-50 rounded-xl">
               <div>
-                <p className="text-xs text-stone-500 mb-2">こんな方におすすめ</p>
-                <ul className="space-y-1">
-                  {menu.best_for.map((item) => (
-                    <li key={item} className="text-sm text-stone-700 flex items-start gap-2">
-                      <span className="text-olive-600 mt-0.5">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-xs text-stone-500 mb-1">予算の目安</p>
+                <p className="text-olive-700">{menu.price_display}</p>
               </div>
-            </CollapsibleContent>
-          </Collapsible>
-        </CardContent>
+              <div>
+                <div className="flex items-center gap-1 mb-1">
+                  <p className="text-xs text-stone-500">所要時間（目安）</p>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Info className="w-3 h-3 text-stone-400" />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>目安時間。髪の状態で前後します</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <div className="flex items-center gap-1 text-stone-700">
+                  <Clock className="w-4 h-4" />
+                  <span>{menu.duration_min_est}〜{menu.duration_max_est}分</span>
+                </div>
+              </div>
+            </div>
 
-        <CardFooter className="flex flex-col gap-3 bg-stone-50 border-t border-stone-100">
-          <Button
-            onClick={handleBooking}
-            className="w-full bg-olive-600 hover:bg-olive-700 text-white rounded-full"
-            data-event="click_book_now"
-            data-menu-id={menu.id}
+            {/* Recommendation reason */}
+            <div className="p-4 bg-olive-50 rounded-xl border border-olive-100">
+              <p className="text-xs text-olive-600 mb-1">あなたへのおすすめ理由</p>
+              <p className="text-sm text-olive-900">{menu.reason}</p>
+            </div>
+
+            {/* Effects */}
+            <div>
+              <p className="text-xs text-stone-500 mb-2">主な効果</p>
+              <div className="flex flex-wrap gap-2">
+                {menu.effects.map((effect) => (
+                  <span
+                    key={effect}
+                    className="text-xs px-3 py-1 bg-white border border-stone-200 rounded-full text-stone-700"
+                  >
+                    {effect}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Collapsible details */}
+            <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" className="w-full text-stone-600 hover:text-stone-900">
+                  {isOpen ? "詳細を閉じる" : "詳細を見る"}
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="mt-4 space-y-3">
+                <div>
+                  <p className="text-xs text-stone-500 mb-2">こんな方におすすめ</p>
+                  <ul className="space-y-1">
+                    {menu.best_for.map((item) => (
+                      <li key={item} className="text-sm text-stone-700 flex items-start gap-2">
+                        <span className="text-olive-600 mt-0.5">•</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+          </CardContent>
+
+          <CardFooter className="flex flex-col gap-3 bg-stone-50 border-t border-stone-100">
+            <Button
+              onClick={handleBooking}
+              className="w-full bg-olive-600 hover:bg-olive-700 text-white rounded-full"
+              data-event="click_book_now"
+              data-menu-id={menu.id}
+            >
+              <ExternalLink className="w-4 h-4 mr-2" />
+              Hot Pepper Beautyで予約する
+            </Button>
+            
+            <Button
+              variant="outline"
+              onClick={() => onAddToCompare(menu)}
+              disabled={isInComparison}
+              className="w-full rounded-full"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              {isInComparison ? "比較に追加済み" : "比較に追加"}
+            </Button>
+          </CardFooter>
+        </Card>
+      </motion.div>
+
+      {/* 店舗選択ダイアログ */}
+      {showStoreSelect && (
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" 
+          onClick={() => setShowStoreSelect(false)}
+        >
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl" 
+            onClick={(e) => e.stopPropagation()}
           >
-            <ExternalLink className="w-4 h-4 mr-2" />
-            Hot Pepper Beautyで予約する
-          </Button>
-          
-          <Button
-            variant="outline"
-            onClick={() => onAddToCompare(menu)}
-            disabled={isInComparison}
-            className="w-full rounded-full"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            {isInComparison ? "比較に追加済み" : "比較に追加"}
-          </Button>
-        </CardFooter>
-      </Card>
-    </motion.div>
+            <h3 className="text-lg font-semibold text-stone-900 mb-4 text-center">
+              店舗を選択してください
+            </h3>
+            <div className="space-y-3">
+              <Button
+                onClick={() => openBookingUrl(menu.hotpepper_url_takayanagi!)}
+                className="w-full bg-olive-600 hover:bg-olive-700 text-white rounded-full py-6 text-base"
+              >
+                <ExternalLink className="w-4 h-4 mr-2" />
+                高柳店で予約
+              </Button>
+              <Button
+                onClick={() => openBookingUrl(menu.hotpepper_url_hanado!)}
+                className="w-full bg-olive-600 hover:bg-olive-700 text-white rounded-full py-6 text-base"
+              >
+                <ExternalLink className="w-4 h-4 mr-2" />
+                花堂店で予約
+              </Button>
+              <Button
+                onClick={() => setShowStoreSelect(false)}
+                variant="ghost"
+                className="w-full rounded-full"
+              >
+                キャンセル
+              </Button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </>
   );
 }
