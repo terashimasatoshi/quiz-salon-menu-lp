@@ -11,7 +11,9 @@ export const menus: Menu[] = [
     duration_min_est: 150,
     duration_max_est: 180,
     tags: ["人気No.1"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   },
   {
     id: "h2_color_cut_meteo",
@@ -23,7 +25,9 @@ export const menus: Menu[] = [
     duration_min_est: 120,
     duration_max_est: 150,
     tags: ["人気No.2"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   },
   {
     id: "meteo_color_cut_homecare",
@@ -35,11 +39,13 @@ export const menus: Menu[] = [
     duration_min_est: 120,
     duration_max_est: 150,
     tags: ["人気No.3", "ホームケア付"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   },
   {
     id: "meteo_straight_color_cut_shoulder",
-    title: "METEOストレート+カラー+カット（肩まで）",
+    title: "METEOストレート+カラー+カット",
     price_display: "¥29,840（20%オフ）",
     audience: "全員",
     effects: ["最新縮毛矯正×カラー×カットを一度に"],
@@ -47,11 +53,13 @@ export const menus: Menu[] = [
     duration_min_est: 210,
     duration_max_est: 240,
     tags: ["フルコース"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   },
   {
     id: "meteo_straight_color_cut_long_new",
-    title: "METEOストレート+カラー+カット（肩下・ご新規）",
+    title: "METEOストレート+カラー+カット",
     price_display: "¥29,840（20%オフ）",
     audience: "ご新規様",
     effects: ["ロングの美しさを最大化"],
@@ -59,7 +67,9 @@ export const menus: Menu[] = [
     duration_min_est: 240,
     duration_max_est: 270,
     tags: ["ご新規様限定", "フルコース"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   },
   {
     id: "meteo_color_h2_treatment",
@@ -71,7 +81,9 @@ export const menus: Menu[] = [
     duration_min_est: 90,
     duration_max_est: 120,
     tags: ["コスパ"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   },
   {
     id: "gray_blend_highlight",
@@ -83,7 +95,9 @@ export const menus: Menu[] = [
     duration_min_est: 150,
     duration_max_est: 180,
     tags: ["白髪ぼかし", "デザインカラー"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   },
   {
     id: "organic_color_rose_spa",
@@ -95,7 +109,9 @@ export const menus: Menu[] = [
     duration_min_est: 120,
     duration_max_est: 150,
     tags: ["頭皮ケア", "リラクゼーション"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   },
   {
     id: "mens_cut_cream_spa",
@@ -107,7 +123,9 @@ export const menus: Menu[] = [
     duration_min_est: 45,
     duration_max_est: 60,
     tags: ["メンズ"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   },
   {
     id: "first_try_meteo_color_cut",
@@ -119,7 +137,9 @@ export const menus: Menu[] = [
     duration_min_est: 90,
     duration_max_est: 120,
     tags: ["ご新規様限定", "お試し"],
-    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/"
+    hotpepper_url: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_takayanagi: "https://beauty.hotpepper.jp/slnH000281422/",
+    hotpepper_url_hanado: "https://beauty.hotpepper.jp/slnH000381011/"
   }
 ];
 
